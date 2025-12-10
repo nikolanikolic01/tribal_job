@@ -1,0 +1,120 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+ 
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav a {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: var(--primary-red);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.language {
+  display: flex;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.language .active {
+  font-weight: 600;
+}
+
+.candidatesBtn,
+.employersBtn {
+
+
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.candidatesBtn {
+border-radius: 7px;
+border: 1px solid #FFF;
+
+  background: transparent;
+color: #FFF;
+font-family: Montserrat;
+font-size: 15px;
+font-style: normal;
+font-weight: 400;
+line-height: 22.5px; /* 150% */
+}
+
+.candidatesBtn:hover {
+  border-color: var(--primary-red);
+  color: red;
+}
+
+.employersBtn {
+border-radius: 7px;
+border: 1px solid #FFF;
+
+  background: transparent;
+color: #FFF;
+font-family: Montserrat;
+font-size: 15px;
+font-style: normal;
+font-weight: 400;
+line-height: 22.5px; /* 150% */
+
+}
+
+.employersBtn:hover {
+  border-color: var(--primary-red);
+  color: red;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  .actions {
+    gap: 1rem;
+  }
+}
