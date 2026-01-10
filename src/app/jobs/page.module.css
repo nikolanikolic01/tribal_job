@@ -791,6 +791,12 @@ font-weight: 700;
 }
 
 @media (max-width: 968px) {
+
+.header {
+  position: relative;
+  background-image: url('/images/dragon_mobile.svg');
+}
+
   .pageTitle{
     font-size: 2rem;
   }

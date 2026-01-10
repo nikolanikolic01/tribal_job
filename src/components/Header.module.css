@@ -134,6 +134,13 @@ transition: all 0.3s;
   text-decoration: none;
   transition: all 0.2s;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
 }
 
 .dropdownItem:last-child {
@@ -288,6 +295,27 @@ line-height: 22.5px; /* 150% */
   }
 
   .mobileNav a:hover {
+    color: var(--primary-red);
+  }
+
+  .mobileLogoutBtn {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: none;
+    padding: 1rem 0;
+    transition: color 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .mobileLogoutBtn:hover {
     color: var(--primary-red);
   }
 

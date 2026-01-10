@@ -16,6 +16,14 @@
   z-index: 0;
 }
 
+.desktopImage {
+  display: block;
+}
+
+.mobileImage {
+  display: none;
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -170,6 +178,22 @@ background: linear-gradient(180deg, #FE0032 0%, #98001E 100%);
 }
 
 @media (max-width: 768px) {
+  .overlay{
+    background: unset;
+  }
+  .desktopImage {
+    display: none;
+  }
+
+  .mobileImage {
+    display: block;
+  }
+  .mobileImage {
+  width: 100%;
+  height: auto!important;
+  object-fit: cover;
+}
+
   .break-line-hero {
     display: none !important;
   }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from './Header.module.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 
 export default function Header() {
@@ -11,6 +12,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showCandidatesDropdown, setShowCandidatesDropdown] = useState(false);
   const router = useRouter();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,8 +75,17 @@ export default function Header() {
             <button className={styles.candidatesBtn}>Candidates</button>
             {showCandidatesDropdown && (
               <div className={styles.candidatesDropdown}>
-                <Link href="/login" className={styles.dropdownItem}>Login</Link>
-                <Link href="/signup" className={styles.dropdownItem}>Sign Up</Link>
+                {user ? (
+                  <>
+                    <Link href="/profile" className={styles.dropdownItem}>Profile</Link>
+                    <button onClick={logout} className={styles.dropdownItem}>Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" className={styles.dropdownItem}>Login</Link>
+                    <Link href="/signup" className={styles.dropdownItem}>Sign Up</Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -104,8 +115,17 @@ export default function Header() {
               <Link href="/pricing" onClick={closeMenu}>Pricing</Link>
               <Link href="/about-us" onClick={closeMenu}>About Us</Link>
               <Link href="/contact" onClick={closeMenu}>Contact</Link>
-              <Link href="/login" onClick={closeMenu}>Login</Link>
-              <Link href="/signup" onClick={closeMenu}>Sign Up</Link>
+              {user ? (
+                <>
+                  <Link href="/profile" onClick={closeMenu}>Profile</Link>
+                  <button onClick={() => { logout(); closeMenu(); }} className={styles.mobileLogoutBtn}>Logout</button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" onClick={closeMenu}>Login</Link>
+                  <Link href="/signup" onClick={closeMenu}>Sign Up</Link>
+                </>
+              )}
             </nav>
             
             <div className={styles.mobileActionsBottom}>

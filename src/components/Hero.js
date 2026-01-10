@@ -9,6 +9,15 @@ export default function Hero() {
           src="/images/landing_image.png" 
           alt="Hero Background" 
           fill
+          className={styles.desktopImage}
+          style={{ objectFit: 'cover' }}
+          priority
+        />
+        <Image 
+          src="/images/homepage_mobile.svg" 
+          alt="Hero Background" 
+          fill
+          className={styles.mobileImage}
           style={{ objectFit: 'cover' }}
           priority
         />

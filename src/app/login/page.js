@@ -14,22 +14,30 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetSuccess, setResetSuccess] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     
-    const success = login(email, password);
-    
-    if (success) {
-      handleGoBack();
-    } else {
-      setError("Invalid email or password");
+    try {
+      const result = await login(email, password);
+      
+      if (result.success) {
+        router.push("/profile");
+      } else {
+        setError(result.error || "Invalid email or password");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,8 +156,12 @@ export default function LoginPage() {
               </div>
 
               {/* Sign In Button */}
-              <button type="submit" className={styles.submitButton}>
-                Sign in
+              <button 
+                type="submit" 
+                disabled={loading}
+                className={styles.submitButton}
+              >
+                {loading ? "Signing in..." : "Sign in"}
               </button>
             </form>
 

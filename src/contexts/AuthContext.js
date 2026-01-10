@@ -1,36 +1,57 @@
 "use client";
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
 
 const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email, password) => {
-    // Simple demo login - replace with real authentication
-    if (email && password) {
-      setUser({ email });
-      return true;
+  // Load user from localStorage on mount
+  useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
     }
-    return false;
+    setLoading(false);
+  }, []);
+
+  const login = async (email, password) => {
+    try {
+      const data = await authService.login({ email, password });
+      setUser(data.user);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Login failed:', error);
+      return { success: false, error: error.message };
+    }
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
   };
 
-  const signup = (email, password, name) => {
-    // Simple demo signup - replace with real authentication
-    if (email && password && name) {
-      setUser({ email, name });
-      return true;
+  const signup = async (email, password, firstName, lastName) => {
+    try {
+      const data = await authService.signup({ 
+        email, 
+        password, 
+        first_name: firstName, 
+        last_name: lastName 
+      });
+      setUser(data.user);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Signup failed:', error);
+      return { success: false, error: error.message };
     }
-    return false;
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup }}>
+    <AuthContext.Provider value={{ user, login, logout, signup, loading }}>
       {children}
     </AuthContext.Provider>
   );

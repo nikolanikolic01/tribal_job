@@ -18,21 +18,39 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [openModal, setOpenModal] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const { signup } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
     
-    const success = signup(email, password, firstName + " " + lastName);
+    if (!agreedToTerms) {
+      setError("Please agree to the Terms and Conditions");
+      return;
+    }
     
-    if (success) {
-      router.push("/");
+    setLoading(true);
+    
+    try {
+      const result = await signup(email, password, firstName, lastName);
+      
+      if (result.success) {
+        router.push("/");
+      } else {
+        setError(result.error || "Signup failed. Please try again.");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,6 +95,11 @@ export default function SignupPage() {
           {/* Signup Form Card */}
           <div className={styles.formCard}>
             <h1 className={styles.title}>Sign up</h1>
+
+            {/* Error Message */}
+            {error && (
+              <div className={styles.errorMessage}>{error}</div>
+            )}
 
             {/* Signup Form */}
             <form onSubmit={handleSubmit} className={styles.form}>
@@ -194,10 +217,10 @@ export default function SignupPage() {
               {/* Create Account Button */}
               <button
                 type="submit"
-                disabled={!agreedToTerms}
+                disabled={!agreedToTerms || loading}
                 className={styles.submitButton}
               >
-                Create Account
+                {loading ? "Creating Account..." : "Create Account"}
               </button>
             </form>
 
